@@ -19,16 +19,6 @@ const Stack = createStackNavigator()
 
 function HomeScreen({navigation}) {
 
-
- useEffect(() => {
-    console.log()
-//     if (image != null ){
-// fetch('http://192.168.1.75:8000/diseases/1').then(res => res.json()).then(data => {
-//   console.log(data);
-//       navigation.navigate('Detail', {disease: data})
-//     }).catch(err => console.log(err))
-//     }
-  }, [props])
   return (
     <View >
       <ListCustomItemShowcase navigation={props.navigation}></ListCustomItemShowcase>
@@ -52,33 +42,33 @@ export default function App() {
 
   const [image, setImage] = useState(null);
 
-  // useEffect(() => {
-  //     if (image != null){
-  //   // const formData = new FormData();
-  //   // formData.append('image', {
-  //   //   uri: image,
-  //   //   name: 'image.jpg',
-  //   //   type: 'image/jpeg',
-  //   // });
+  useEffect(() => {
+      if (image != null){
+    const formData = new FormData();
+    formData.append('image', {
+      uri: image,
+      name: 'image.jpg',
+      type: 'image/jpeg',
+    });
 
-  //   // fetch('http://192.168.1.75:8000/classify', {
-  //   //   method: 'POST',
-  //   //   body: formData,
-  //   //   headers: {
-  //   //     'Content-Type': 'multipart/form-data',
-  //   //   },
-  //   // })
-  //   //   .then((response) => response.json())
-  //   //   .then((data) => {
-  //   //     Navigator.navigate('Detail', { disease: data });
-  //   //   })
-  //   //   .catch((error) => {
-  //   //     console.error(error);
-  //   //   });
+    fetch('http://192.168.1.75:8000/classify', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        Navigator.navigate('Detail', { disease: data });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     
-  // }
-  // }, [image, Navigator])
+  }
+  }, [image, Navigator])
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
